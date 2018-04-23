@@ -1,9 +1,10 @@
 
+#kubectl set image deploy flask-app flask-app=mjbright/flask-web:v2
+
 APP=flask-app
 IMAGE=mjbright/flask-web
 
 VERSION="v2"
-[ ! -z "$1" ] && VERSION="$1"
 
 press()
 {
@@ -12,6 +13,11 @@ press()
     read _DUMMY
     [ "$_DUMMY" = "q" ] && exit 0
     [ "$_DUMMY" = "Q" ] && exit 0
+}
+
+die() {
+    echo "$0: die - $*" >&2
+    exit 1
 }
 
 watch_rollout() {
@@ -32,12 +38,14 @@ watch_rollout() {
     done
 }
 
-[ "$VERSION" = "-w" ] && {
-    watch_rollout; exit
-}
+case $1 in
+    v[0-9])VERSION="$1";;
+    [0-9]) VERSION="v$1";;
 
-#kubectl set image deploy flask-app flask-app=mjbright/flask-web:v2
+    -w) watch_rollout; exit;;
 
+    *) die "Bad version format";;
+esac
 
 press "kubectl set image deploy $APP $APP=$IMAGE:$VERSION"
 kubectl set image deploy $APP $APP=$IMAGE:$VERSION
