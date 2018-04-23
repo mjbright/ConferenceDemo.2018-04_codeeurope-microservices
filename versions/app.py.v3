@@ -11,10 +11,15 @@ db  = Redis(host='redis', port=6379)
 def hello():
     db.incr('count')
 
-    #if request.headers
-    TEXT=true
+    HTML=True
 
-    if TEXT:
+    userAgent = request.headers['User-Agent'].lower()
+    if userAgent.find('curl')  != -1: HTML=False
+    if userAgent.find('links') != -1: HTML=False
+    if userAgent.find('lynx')  != -1: HTML=False
+    if userAgent.find('wget')  != -1: HTML=False
+
+    if not HTML:
         return '''Counter value=%s''' % db.get('count')
     
     return '''
@@ -22,7 +27,7 @@ def hello():
 <html>
   <head>
     <style>
-          body {background-color: powderblue;};
+          body {background-color: #aaaaff;};
           h1   {color: blue;};
           p    {color: red;};
     </style>
