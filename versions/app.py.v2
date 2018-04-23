@@ -27,7 +27,7 @@ def hello():
 <html>
   <head>
     <style>
-          body {background-color: #aaffaa;};
+          body {background-color: #0000ff;};
           h1   {color: blue;};
           p    {color: red;};
     </style>
@@ -38,6 +38,13 @@ def hello():
 </html>
 
 ''' % db.get('count')
+
+#    'rgb(0,255,0)', // version1
+#    'rgb(0,0,255)',
+#    'rgb(255,0,0)',
+#    'rgb(255,255,0)',
+#    'rgb(0,255,255)',
+#    'rgb(127,127,255)'
 
 
 if __name__ == "__main__":
