@@ -105,6 +105,12 @@ MINIKUBE_CACHE() {
     minikube cache list
 }
 
+BUILD_ALL() {
+    cp -a versions/app.py.v1 app.py; BUILD v1
+    cp -a versions/app.py.v2 app.py; BUILD v2
+    cp -a versions/app.py.v3 app.py; BUILD v3
+}
+
 BUILD() {
     local VERSION=$1; shift
 
@@ -145,7 +151,8 @@ ACCESS() {
 DO_ALL() {
     CLEAN
     MINIKUBE_CACHE
-    BUILD $VERSION
+    BUILD_ALL
+    #BUILD $VERSION
     APPLY
     ACCESS
 }
@@ -160,7 +167,8 @@ while [ ! -z "$1" ]; do
         -x)    set -x;;
         +x)    set +x;;
 
-        -b)    ACTION=BUILD;;
+        -ba)    ACTION=BUILD_ALL;;
+        -b)     ACTION=BUILD;;
         -v[0-9]) VERSION=${1#-};;
 
         -curl) ACTION=ACCESS;;
@@ -175,6 +183,7 @@ done
 
 case $ACTION in
     ACCESS) ACCESS;;
+    BUILD_ALL) BUILD_ALL;;
     BUILD)  BUILD $VERSION;;
 
     ALL)    DO_ALL;;
