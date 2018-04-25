@@ -1,6 +1,12 @@
 
 #kubectl set image deploy flask-app flask-app=mjbright/flask-web:v2
 
+# TODO: Add cause
+# TODO: show rollout history
+# TODO: show rollback
+# TODO: show auto rollback based on healthchecks
+
+
 APP=flask-app
 IMAGE=mjbright/flask-web
 
