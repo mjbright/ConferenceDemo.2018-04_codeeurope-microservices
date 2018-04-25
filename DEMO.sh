@@ -106,6 +106,7 @@ MINIKUBE_CACHE() {
 }
 
 BUILD_ALL() {
+    eval $(minikube docker-env)
     cp -a versions/app.py.v1 app.py; BUILD v1
     cp -a versions/app.py.v2 app.py; BUILD v2
     cp -a versions/app.py.v3 app.py; BUILD v3
@@ -114,6 +115,7 @@ BUILD_ALL() {
 BUILD() {
     local VERSION=$1; shift
 
+    eval $(minikube docker-env)
     docker build -t $FLASK_IMAGE:$VERSION .
     docker images |grep $FLASK_IMAGE
 }
@@ -157,6 +159,13 @@ DO_ALL() {
     ACCESS
 }
 
+PREPA_DEMO() {
+    minikube delete
+    #minikube start --memory 4096
+    minikube start --memory 3072
+    BUILD_ALL
+}
+
 ################################################################################
 # Args:
 
@@ -166,6 +175,9 @@ while [ ! -z "$1" ]; do
     case $1 in
         -x)    set -x;;
         +x)    set +x;;
+
+        -pre*)   ACTION=PREPA_DEMO;;
+        -c)      ACTION=CLEAN;;
 
         -ba)    ACTION=BUILD_ALL;;
         -b)     ACTION=BUILD;;
@@ -182,6 +194,7 @@ done
 # Main:
 
 case $ACTION in
+    PREPA_DEMO) PREPA_DEMO;;
     ACCESS) ACCESS;;
     BUILD_ALL) BUILD_ALL;;
     BUILD)  BUILD $VERSION;;
