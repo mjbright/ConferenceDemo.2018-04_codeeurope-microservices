@@ -1,0 +1,7 @@
+alias ll='ls -altr'
+
+export PS1='> '
+
+set -o vi
+
+
