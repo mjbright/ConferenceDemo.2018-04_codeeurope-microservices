@@ -11,7 +11,7 @@ db  = Redis(host='redis', port=6379)
 def hello():
     db.incr('count')
 
-    return '''Counter value=%s''' % db.get('count')
+    return '''Redis counter value=%s\n''' % db.get('count')
     
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

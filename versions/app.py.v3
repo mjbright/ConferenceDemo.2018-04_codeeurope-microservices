@@ -20,7 +20,7 @@ def hello():
     if userAgent.find('wget')  != -1: HTML=False
 
     if not HTML:
-        return '''Counter value=%s''' % db.get('count')
+        return '''Redis counter value=%s\n''' % db.get('count')
     
     return '''
 
@@ -33,7 +33,7 @@ def hello():
     </style>
   </head>
   <body>
-    <h1> Count is %s.  </h1>
+    <b> Redis counter value=%s.  </b>
   </body>
 </html>
 
