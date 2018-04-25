@@ -1,7 +1,6 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
   labels:
     run: flask-app
   name: flask-app
@@ -13,5 +12,3 @@ spec:
   selector:
     run: flask-app
   type: LoadBalancer
-status:
-  loadBalancer: {}

@@ -1,7 +1,6 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     run: flask-app
   name: flask-app
@@ -10,10 +9,8 @@ spec:
   selector:
     matchLabels:
       run: flask-app
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         run: flask-app
     spec:
@@ -22,5 +19,3 @@ spec:
         name: flask-app
         ports:
         - containerPort: 5000
-        resources: {}
-status: {}

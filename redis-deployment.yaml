@@ -1,7 +1,6 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     run: redis
   name: redis
@@ -10,10 +9,8 @@ spec:
   selector:
     matchLabels:
       run: redis
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         run: redis
     spec:
@@ -22,5 +19,3 @@ spec:
         name: redis
         ports:
         - containerPort: 6379
-        resources: {}
-status: {}
