@@ -3,7 +3,20 @@ IP=$(minikube ip)
 
 SERVICE=${1:flask-app}
 export NODE_PORT=$(kubectl get services/flask-app -o go-template='{{(index .spec.ports 0).nodePort}}') 
-echo http://${IP}:$NODE_PORT 
+SERVICE_URL=http://${IP}:$NODE_PORT 
+echo $SERVICE_URL
+
+#SERVICE_URL=${IP}:$NODE_PORT 
+#echo http://$SERVICE_URL
+
+PRES_DIR=~/z/www/REMARK/2018-Apr-23_CodeEurope_DevMicroServicesWithKubernetes
+
+sed "s|SERVICE_URL|$SERVICE_URL|g" \
+    < $PRES_DIR/demo.html.template \
+    > $PRES_DIR/demo.html
+
+# So decktape takes index.html (most recent html) as entry point:
+touch $PRES_DIR/demo.html
 
 # kubectl get service flask-app -o go-template --template="{{.spec.ports}}"
 
