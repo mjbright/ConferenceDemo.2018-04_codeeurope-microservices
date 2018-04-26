@@ -102,6 +102,10 @@ CLEAN() {
 MINIKUBE_CACHE() {
     minikube cache add redis:latest
     minikube cache add python:2.7
+    minikube cache add mjbright/k8s-demo:1
+    minikube cache add mjbright/k8s-demo:2
+    minikube cache add mjbright/k8s-demo:3
+
     minikube cache list
 }
 
@@ -197,7 +201,9 @@ case $ACTION in
     PREPA_DEMO) PREPA_DEMO;;
     ACCESS) ACCESS;;
     BUILD_ALL) BUILD_ALL;;
-    BUILD)  BUILD $VERSION;;
+    BUILD)
+        cp -a versions/app.py.$VERSION app.py;
+        BUILD $VERSION;;
 
     ALL)    DO_ALL;;
 

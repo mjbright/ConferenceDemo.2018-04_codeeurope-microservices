@@ -1,5 +1,6 @@
 
 import os, time, json
+import socket
 
 from redis import Redis
 from flask import Flask, request, Response, stream_with_context, jsonify
@@ -19,8 +20,10 @@ def hello():
     if userAgent.find('lynx')  != -1: HTML=False
     if userAgent.find('wget')  != -1: HTML=False
 
+    host = socket.gethostname()
+
     if not HTML:
-        return '''Redis counter value=%s\n''' % db.get('count')
+        return '''[%s] Redis counter value=%s\n''' % (host, db.get('count'))
     
     return '''
 
@@ -33,11 +36,11 @@ def hello():
     </style>
   </head>
   <body>
-    <b> Redis counter value=%s.  </b>
+    <b> [%s] Redis counter value=%s. </b>
   </body>
 </html>
 
-''' % db.get('count')
+''' % (host, db.get('count'))
 
 #    'rgb(0,255,0)', // version1
 #    'rgb(0,0,255)',
