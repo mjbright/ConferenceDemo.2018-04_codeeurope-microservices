@@ -1,0 +1,28 @@
+#// From: https://medium.com/@Oskarr3/setting-up-ingress-on-minikube-6ae825e98f82
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-definitions
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  backend:
+    serviceName: default-http-backend
+    servicePort: 80
+  rules:
+  - host: minikube.test
+    http:
+      paths:
+      - path: /k8sdemo
+        backend:
+          serviceName: k8sdemo
+          servicePort: 8080
+  - host: flaskapp.test
+    http:
+      paths:
+      - path: /flask
+        backend:
+          serviceName: flask-app
+          servicePort: 5000
+
