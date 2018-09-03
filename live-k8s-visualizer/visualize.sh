@@ -9,21 +9,37 @@ PORT=8002
 
 SRC_DIR=$(dirname $0)
 
-if [ "$1" = "-mjb" ];then
-    #SRC_DIR=~/src/git/mjbright.live-k8s-visualizer
-    SRC_DIR=~/src/git/GIT_mjbright/codeeurope-microservices/live-k8s-visualizer
-fi
+die() {
+    echo "$0: die - $*" >&2
+    exit 1
+}
 
-if [ "$1" = "." ];then
-    #SRC_DIR=$PWD
-    SRC_DIR=.
-fi
+OPTS=""
 
-if [ "$1" = "-l" ];then
-    SRC_DIR=~/src/git/larrycai.gcp-live-k8s-visualizer
-fi
+while [ ! -z "$1" ];do
+    case $1 in
+        -r)   # Access remotely:
+              IP=$(ip a | awk '!/127.0.0.1/ && / inet / { FS="/"; $0=$2; print $1; exit(0); }')
+              if [ ! -z "$2" ]; then
+                  shift; CLIENT_IP=$1
+              else
+                  CLIENT_IP=0.0.0.0
+	      fi
+              #OPTS+="--accept-hosts='^localhost$,^127\.0\.0\.1$,$CLIENT_IP'"
+              OPTS+=" --address=$IP --accept-hosts='^${CLIENT_IP}$'"
+	      # --accept-hosts='^localhost$,^127\.0\.0\.1$,^\[::1\]$'
+	      ;;
+
+        -mjb) SRC_DIR=~/src/git/GIT_mjbright/codeeurope-microservices/live-k8s-visualizer ;;
+        \.)   SRC_DIR=.;;
+        -l)   SRC_DIR=~/src/git/larrycai.gcp-live-k8s-visualizer;;
+
+	*)    die "Bad option <$1>";;
+    esac
+    shift
+done
 
 set -x
-kubectl proxy --www=$SRC_DIR --www-prefix=/ --api-prefix=/api/ --port $PORT
+kubectl proxy $OPTS  --www=$SRC_DIR --www-prefix=/ --api-prefix=/api/ --port $PORT
 set +x
 
