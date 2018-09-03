@@ -3,6 +3,8 @@
 Microservice/Kubernetes examples used in my 2018-Apr presentations at CodeEurope,
 Warsaw and Wroclaw.
 
+Refer to [https://mjbright.github.io/Talks/index.html#codeeu_2018](https://mjbright.github.io/Talks/index.html#codeeu_2018) for the slides and other information about that talk.
+
 The demo at Wroclaw was run on a Mac AirBook Pro using
 - minikube as a single-node Kubernetes cluster
 - a hacked up dashboard allowing to integrate a test button & output, a shell console and a visualization of the cluster
