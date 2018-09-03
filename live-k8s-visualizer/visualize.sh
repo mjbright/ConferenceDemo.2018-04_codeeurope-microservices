@@ -7,7 +7,12 @@ PORT=8002
 
 #kubectl proxy --www=/Users/mjb/src/git/brendandburns.gcp-live-k8s-visualizer --www-prefix=/my-mountpoint/ --api-prefix=/api/
 
-SRC_DIR=~/src/git/mjbright.live-k8s-visualizer
+SRC_DIR=$(dirname $0)
+
+if [ "$1" = "-mjb" ];then
+    #SRC_DIR=~/src/git/mjbright.live-k8s-visualizer
+    SRC_DIR=~/src/git/GIT_mjbright/codeeurope-microservices/live-k8s-visualizer
+fi
 
 if [ "$1" = "." ];then
     #SRC_DIR=$PWD
