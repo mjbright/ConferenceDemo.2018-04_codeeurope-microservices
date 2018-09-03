@@ -1,0 +1,60 @@
+.wide {
+  width: 150px;
+}
+
+.service {
+  background-color: rgb(0,153,57);
+  color: white;
+}
+
+.controller {
+  background-color:rgb(51,105,232);
+  color: white;
+}
+
+.pod {
+  width: 150px;
+  background-color:#eeeeef;
+}
+
+.logo {
+  background: url('titlelogo.svg');
+  background-repeat: no-repeat;
+  height: 150px;
+  width: 600px;
+}
+
+.navbar-logo {
+  margin-left: 10px;
+  text-align: left;
+}
+
+#nav-logo-img {
+  height: 42px;
+}
+
+.navbar {
+  background-color: #447AE8;
+  border: 0px;
+  border-radius: 0;
+}
+
+.window span {
+  vertical-align: middle;
+}
+
+#main {
+  margin-top: 0;
+  width: auto;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+}
+
+.demo {
+  position: absolute;
+  top: 42px;
+  bottom: 0;
+  height: auto;
+  margin-bottom: 0;
+}
