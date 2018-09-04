@@ -12,9 +12,9 @@
 #      git clone https://github.com/codecraf8/kubernetes-flask-redis-microservice
 #      note on ErrImagePull: https://stackoverflow.com/questions/36874880/kubernetes-cannot-pull-local-image
 
-USE_MINIKUBE=0
+USE_MINIKUBE=1
 
-[ $USE_MINIKUBE -ne 0 ] && eval $(minikube docker-env)
+kubectl get nodes | grep docker-for-desktop && USE_MINIKUBE=0
 
 #cd ~/src/git/
 #git clone https://github.com/codecraf8/kubernetes-flask-redis-microservice
@@ -198,6 +198,8 @@ ACTION=MOST
 
 while [ ! -z "$1" ]; do
     case $1 in
+        -minikube)    USE_MINIKUBE=1; eval $(minikube docker-env);;
+
         -x)    set -x;;
         +x)    set +x;;
 

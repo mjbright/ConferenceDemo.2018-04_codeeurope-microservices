@@ -17,7 +17,7 @@
 </div>
 
 <div style="display:block;position:absolute;top:32px;border:1px solid blue;">
-    <iframe name="terminal" src="http://127.0.0.1:9001" allowtransparency="yes" scrolling="yes" style="width:1000px; height:90px; position:absolute; left:2px;top:0px;margin:0;padding:0;" > </iframe>
+    <iframe name="terminal" src="http://TTYD_URL" allowtransparency="yes" scrolling="yes" style="width:1000px; height:90px; position:absolute; left:2px;top:0px;margin:0;padding:0;" > </iframe>
 </div>
 
 <div style="display:block;position:absolute;top:124px;border:1px solid blue;">
