@@ -178,4 +178,52 @@ You can refer to the presentation slides to see the commands used.
 
 The demo steps are described from [slide#23](https://mjbright.github.io/Talks/2018-Apr-26_CodeEurope_DevMicroServicesWithKubernetes/#43) onwards.
 
+### Deploy Redis
+
+```
+kubectl apply -f redis-deployment.yaml
+```
+
+### Deploy Flask
+
+```
+kubectl apply -f flask-deployment.yaml
+```
+
+### Expose the Redis Service
+
+```
+kubectl apply -f redis-service.yaml
+```
+
+### Expose the Flask Service
+
+```
+kubectl apply -f flask-service.yaml
+```
+
+*NOTE*: We have not yet set the exposed service port in our demo page - the button still displays PORT_UNSET.
+
+
+<img src="images/demo_noappPort.png" width="800" />
+
+#### Update the demo page to set the service port
+
+We rerun the create_demo_html.sh script now with the '-s' option to recuperate the service port:
+
+```
+cd live-k8s-visualizer/
+
+./create_demo_html.sh -s
+```
+
+Now reload the demo page and we see that the port number now appears in the button and the first request to our service has been made "Redis counter value=1".
+
+<img src="images/demo_count1.png" width="800" />
+
+Press the button to see the value increment.
+
+<img src="images/demo_count2.png" width="800" />
+
+
 
