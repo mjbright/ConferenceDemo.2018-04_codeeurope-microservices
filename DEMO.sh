@@ -12,6 +12,10 @@
 #      git clone https://github.com/codecraf8/kubernetes-flask-redis-microservice
 #      note on ErrImagePull: https://stackoverflow.com/questions/36874880/kubernetes-cannot-pull-local-image
 
+USE_MINIKUBE=0
+
+[ $USE_MINIKUBE -ne 0 ] && eval $(minikube docker-env)
+
 #cd ~/src/git/
 #git clone https://github.com/codecraf8/kubernetes-flask-redis-microservice
 
@@ -110,7 +114,6 @@ MINIKUBE_CACHE() {
 }
 
 BUILD_ALL() {
-    eval $(minikube docker-env)
     cp -a versions/app.py.v1 app.py; BUILD v1
     cp -a versions/app.py.v2 app.py; BUILD v2
     cp -a versions/app.py.v3 app.py; BUILD v3
@@ -119,7 +122,6 @@ BUILD_ALL() {
 BUILD() {
     local VERSION=$1; shift
 
-    eval $(minikube docker-env)
     docker build -t $FLASK_IMAGE:$VERSION .
     docker images |grep $FLASK_IMAGE
 }
@@ -140,11 +142,19 @@ ACCESS() {
     PORT=$(kubectl get service $SERVICE --output='jsonpath={.spec.ports[0].nodePort}')
     [ -z "$PORT" ] && die "Failed to get nodePort for service $SERVICE"
 
-    IP="$(minikube ip)"
-    [ -z "$IP" ] && die "Failed to get IP for minikube"
+    IP=$(kubectl describe nodes | awk '/InternalIP:/ { print $2; }')
+    #if [ -f /cygdrive/c ]; then
+    #    IP=$(kubectl describe nodes | awk '/InternalIP:/ { print $2; }')
+    #else
+    #    IP=$(ip a | awk '!/127.0.0.1/ && / inet / { FS="/"; $0=$2; print $1; exit(0); }')
+    #fi
+    #IP="$(minikube ip)"
+    #[ -z "$IP" ] && die "Failed to get IP for minikube"
+    [ -z "$IP" ] && die "Failed to get IP for node"
 
     URL="$IP:$PORT"
-    CMD="curl 'http://${URL}/"
+    #CMD="curl 'http://${URL}/'"
+    CMD="wget -O - 'http://${URL}/'"
 
     press "About to run: <$CMD>"
     eval $CMD
@@ -163,6 +173,15 @@ DO_ALL() {
     ACCESS
 }
 
+DO_MOST() {
+    CLEAN
+    #MINIKUBE_CACHE
+    #BUILD_ALL
+    #BUILD $VERSION
+    APPLY
+    ACCESS
+}
+
 PREPA_DEMO() {
     minikube delete
     #minikube start --memory 4096
@@ -173,7 +192,9 @@ PREPA_DEMO() {
 ################################################################################
 # Args:
 
-ACTION=ALL
+#ACTION=ALL
+ACTION=MOST
+
 
 while [ ! -z "$1" ]; do
     case $1 in
@@ -206,6 +227,7 @@ case $ACTION in
         BUILD $VERSION;;
 
     ALL)    DO_ALL;;
+    MOST)    DO_MOST;;
 
     *) die "Unknown action <$ACTION>";;
 esac
