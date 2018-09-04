@@ -13,7 +13,7 @@
 <button onclick="refreshIframe('flask-app');"><b>GET "flask-app"</b> SERVICE_URL </button>
 
 <div style="display:block;position:absolute;top:0px;left:0px;border:1px solid red;">
-  <iframe name="flask-app" src="SERVICE_URL" allowtransparency="yes" scrolling="no" style="width:920px; height:26px; position:absolute; left:280px;top:0px;margin:0;padding:0;" > </iframe>
+  <iframe name="flask-app" src="SERVICE_URL" allowtransparency="yes" scrolling="no" style="width:820px; height:26px; position:absolute; left:380px;top:0px;margin:0;padding:0;" > </iframe>
 </div>
 
 <div style="display:block;position:absolute;top:32px;border:1px solid blue;">
