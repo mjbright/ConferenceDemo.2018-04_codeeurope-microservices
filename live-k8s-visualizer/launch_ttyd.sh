@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# On Ubuntu: ttyd -i enp3s0 -O -m 1 -S -d 14 -p 8002 bash
+
+#TTYD_OPTIONS="-O -m 1 -S -d 7"
+TTYD_OPTIONS="-O -m 1 -d 7"
+
 die() {
     echo "$0: die - $*" >&2
     exit 1
@@ -27,8 +32,7 @@ done
     SERVE_IFACE=$(ip a | awk '/[0-9]: lo/ { FS=":"; $0=$2; print $1; exit 0; }')
 
 set -x
-ttyd -i $SERVE_IFACE -p $SERVER_PORT --debug bash
-set +x
+ttyd -i $SERVE_IFACE -p $SERVER_PORT $TTYD_OPTIONS bash
 
 
 
