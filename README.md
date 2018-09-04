@@ -225,5 +225,60 @@ Press the button to see the value increment.
 
 <img src="images/demo_count2.png" width="800" />
 
+### Scale the flask-app
+
+In the file flask-deployment.yaml, modify the line
+
+<pre>     replicas: 1 </pre>
+
+to
+
+<pre>     replicas: 4 </pre>
+
+Now reapply this resource file:
+
+```
+kubectl apply -f flask-deployment.yaml
+```
+
+<img src="images/demo_replicas4.png" width="800" />
+
+### Rollout an upgrade to the flask-app
+
+In the file flask-deployment.yaml, modify the line
+
+<pre>     - image: mjbright/flask-web:v1 </pre>
+
+to
+
+<pre>     - image: mjbright/flask-web:v2 </pre>
+
+Now reapply this resource file:
+
+```
+kubectl apply -f flask-deployment.yaml
+```
+
+<img src="images/demo_upgrading.png" width="800" />
+
+<img src="images/demo_upgraded_appv2.png" width="800" />
+
+### Rollout an upgrade to the flask-app
+
+In the file flask-deployment.yaml, modify the line
+
+<pre>     - image: mjbright/flask-web:v2 </pre>
+
+to
+
+<pre>     - image: mjbright/flask-web:v3 </pre>
+
+Now reapply this resource file:
+
+```
+kubectl apply -f flask-deployment.yaml
+```
+
+<img src="images/demo_upgraded_appv3.png" width="800" />
 
 
