@@ -1,0 +1,64 @@
+
+import os, time, json
+import socket
+#import random
+
+from redis import Redis
+from flask import Flask, request, Response, stream_with_context, jsonify
+
+#host = os.uname()[1]
+
+## START_DELAY_SECS=20
+## random.seed()
+## START_DELAY_SECS=random.randint(1, START_DELAY_SECS)
+
+app = Flask(__name__)
+db  = Redis(host='redis', port=6379)
+
+@app.route('/')
+def hello():
+    db.incr('count')
+
+    HTML=True
+
+    userAgent = request.headers['User-Agent'].lower()
+    if userAgent.find('curl')  != -1: HTML=False
+    if userAgent.find('links') != -1: HTML=False
+    if userAgent.find('lynx')  != -1: HTML=False
+    if userAgent.find('wget')  != -1: HTML=False
+
+    host = socket.gethostname()
+
+    if not HTML:
+        return '''[%s] Redis counter value=%s\n''' % (host, db.get('count'))
+    
+    return '''
+
+<html>
+  <head>
+    <style>
+          body {background-color: #ff0000;};
+          h1   {color: blue;};
+          p    {color: red;};
+    </style>
+  </head>
+  <body>
+    <b> [%s] Redis counter value=%s. </b>
+  </body>
+</html>
+
+''' % (host, db.get('count'))
+
+#    'rgb(0,255,0)', // version1
+#    'rgb(0,0,255)',
+#    'rgb(255,0,0)',
+#    'rgb(255,255,0)',
+#    'rgb(0,255,255)',
+#    'rgb(127,127,255)'
+
+
+if __name__ == "__main__":
+    ## print("Sleeping %s secs ...\n" % START_DELAY_SECS)
+    ## time.sleep(START_DELAY_SECS)
+
+    app.run(host="0.0.0.0", debug=True)
