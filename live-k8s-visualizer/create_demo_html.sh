@@ -10,7 +10,13 @@ cd $(dirname $0)
 OPTS=""
 
 SERVE_IP=127.0.0.1
-NODE_IP=192.168.99.100
+#NODE_IP=192.168.99.100
+if kubectl get nodes | grep -q docker-for-desktop; then
+    NODE_IP=127.0.0.1
+else
+    NODE_IP=$(kubectl describe nodes | awk '/InternalIP:/ { print $2; }')
+fi
+
 NODE_PORT="PORT_UNSET"
 
 while [ ! -z "$1" ];do
@@ -30,6 +36,9 @@ done
 
 SERVICE_URL=http://${NODE_IP}:${NODE_PORT}
 VISUALIZER_URL=http://${SERVE_IP}:8002
+
+echo "Using SERVICE_URL=$SERVICE_URL"
+echo "Using VISUALIZER_URL=$VISUALIZER_URL"
 
 #sed -e "s/SERVICE_URL/$SERVICE_URL/g" \
     #-e "s/VISUALIZER_URL/$VISUALIZER_URL/g" \
