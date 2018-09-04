@@ -166,7 +166,7 @@ ACCESS() {
 
 DO_ALL() {
     CLEAN
-    MINIKUBE_CACHE
+    [ $USE_MINIKUBE -ne 0 ] && MINIKUBE_CACHE
     BUILD_ALL
     #BUILD $VERSION
     APPLY
@@ -175,7 +175,7 @@ DO_ALL() {
 
 DO_MOST() {
     CLEAN
-    #MINIKUBE_CACHE
+    [ $USE_MINIKUBE -ne 0 ] && MINIKUBE_CACHE
     #BUILD_ALL
     #BUILD $VERSION
     APPLY
@@ -192,8 +192,8 @@ PREPA_DEMO() {
 ################################################################################
 # Args:
 
-#ACTION=ALL
-ACTION=MOST
+ACTION=ALL
+#ACTION=MOST
 
 
 while [ ! -z "$1" ]; do
@@ -223,6 +223,7 @@ done
 case $ACTION in
     PREPA_DEMO) PREPA_DEMO;;
     ACCESS) ACCESS;;
+    CLEAN)  CLEAN;;
     BUILD_ALL) BUILD_ALL;;
     BUILD)
         cp -a versions/app.py.$VERSION app.py;
