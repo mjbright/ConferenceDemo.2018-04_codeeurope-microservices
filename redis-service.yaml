@@ -11,4 +11,4 @@ spec:
     targetPort: 6379
   selector:
     run: redis
-  type: LoadBalancer
+  type: NodePort

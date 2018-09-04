@@ -11,4 +11,4 @@ spec:
     targetPort: 8080
   selector:
     run: k8sdemo
-  type: LoadBalancer
+  type: NodePort
