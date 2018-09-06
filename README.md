@@ -45,9 +45,13 @@ The steps to deploy the visualizer are described later in this document.
 
 # To run the demos: 
 
+## SETUP
 
+Setup instructions are provided in [SETUP.md](SETUP.md) - this document describes how to setup the full dashboard.  You can also run the demo steps with minikube or any other Kubernetes cluster.
 
 ## Demo Steps
+
+Below I detail most of the steps of the CodeEurope demo with the exception of the use of Nginx on minikube.  This will come later.
 
 ### Slides
 
@@ -57,7 +61,11 @@ You can refer to the presentation slides to see the commands used.
 
 The demo steps are described from [slide#23](https://mjbright.github.io/Talks/2018-Apr-26_CodeEurope_DevMicroServicesWithKubernetes/#43) onwards.
 
+The steps are described in greater detail in those slides, and where these "*declarative*" steps (i.e. by "*apply*"ing the yaml files which are a declaration of the desired configuration) are also compared to alternative "*imperative*" such as ```kubectl run``` or ```kubectl expose```.
+
 ### Deploy Redis
+
+Deploy a Redis backend (this will create a Deployment, a ReplicaSet and one instance of a Redis pod).
 
 ```
 kubectl apply -f redis-deployment.yaml
@@ -65,11 +73,15 @@ kubectl apply -f redis-deployment.yaml
 
 ### Deploy Flask
 
+Deploy a Flask app as frontend (this will create a Deployment, a ReplicaSet and one instance of a Flask-based application server pod).
+
 ```
 kubectl apply -f flask-deployment.yaml
 ```
 
 ### Expose the Redis Service
+
+Expose the Redis service on a "*known port*" so that the flask-app can access it.
 
 ```
 kubectl apply -f redis-service.yaml
@@ -77,12 +89,13 @@ kubectl apply -f redis-service.yaml
 
 ### Expose the Flask Service
 
+Expose the Flask service so that we can connect to it.
+
 ```
 kubectl apply -f flask-service.yaml
 ```
 
 *NOTE*: We have not yet set the exposed service port in our demo page - the button still displays PORT_UNSET.
-
 
 <img src="images/demo_noappPort.png" width="800" />
 
