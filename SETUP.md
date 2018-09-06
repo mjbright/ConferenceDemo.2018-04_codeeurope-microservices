@@ -2,11 +2,16 @@
 
 ## Create your own Kubernetes cluster.
 
-It is recommended to use minikube for this, but you may choose other methods.
+At CodeEurope I used a Mac and decided to use minikube to perform the demos.
 
-On Windows it may be easier to use Docker Desktop which now provides Kubernetes in the stable channel.
+You can download Minikube on various platforms (Linux, Windows, macOS) and you can download the latest latest version of minikube for your OS from the release page [https://github.com/kubernetes/minikube/releases](https://github.com/kubernetes/minikube/releases).
 
-You can download the latest version of minikube for your OS (Linux, Windows, macOS) from the release page [https://github.com/kubernetes/minikube/releases](https://github.com/kubernetes/minikube/releases).
+You will also need to download the kubectl binary.  See [Install and Set Up kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+
+Alternatively, on Windows 10 and macOS it will be easier to use Docker Desktop which now provides Kubernetes in the stable channel.
+You can download Docker Desktop from [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop).  This package also installs the kubectl binary.
+
+These instructions will suppose that you are using minikube.
 
 Type ```minikube start``` to start the cluster, this may take some time especially if it is necessary to download the iso and associated containers over a slow network.
 
@@ -29,19 +34,22 @@ minikube   Ready     master    15m       v1.10.0
 ### [optional] Installing/running ttyd
 To run the dashboard you optionally require the ttyd daemon installed (to allow to type console commands locally in the browser window).
 
+#### Installing ttyd on macOS or Linux
 Executables are readily available for Linux and MacOS on the [release page](https://github.com/tsl0922/ttyd/releases).
 ttyd is available on macOS via brew.
 
+#### Building ttyd for Windows
 On Windows you will first need to install MSYS2 and then compile your own executable, instructions are provided for this [here](https://github.com/tsl0922/ttyd/tree/master/msys2).  I would have made a Windows executable available but following the instructions only created a dynamically linked executable, ... 
+
 
 Once you have ttyd available launch the executable.
 
-**Note:** we are launching ttyd without any special security ... be careful, you may want to investigate use of https, if accessing from another machine.
+**Note:** we are launching ttyd without any special security ... be careful, you **will** want to investigate use of https, if accessing from another machine.
 
 ```
 cd live-k8s-visualizer/
 
-launch_ttyd.sh -r
+launch_ttyd.sh
 ```
 
 ### Running the Visualizer:
@@ -52,13 +60,6 @@ launch_ttyd.sh -r
 cd live-k8s-visualizer/
 
 ./visualize.sh
-```
-
-Note: if accessing remotely run with the '-r' option:
-```
-cd live-k8s-visualizer/
-
-./visualize.sh -r
 ```
 
 ### Create the "demo dashboard" page
@@ -88,20 +89,20 @@ You can open the dashboard in your browser either using
 
 In my case under Windows I had the files under
 
-- [cygwin path] ```/home/windo/src/git/GIT_mjbright/codeeurope-microservices```
-- [DOS path] ```C:\tools\cygwin\home\windo\src\git\GIT_mjbright\codeeurope-microservices```
+- [cygwin path] ```/home/windo/src/git/GIT_mjbright/ConferenceDemo.2018-04_codeeurope-microservices```
+- [DOS path] ```C:\tools\cygwin\home\windo\src\git\GIT_mjbright\ConferenceDemo.2018-04_codeeurope-microservices```
 
 
 #### Accessing the *demo dashboard* using local files:
 I can access the *demo dashboard* in my browser using:
 ```
-    file:///C:/tools/cygwin/home/windo/src/git/GIT_mjbright/codeeurope-microservices/demo.html
+    file:///C:/tools/cygwin/home/windo/src/git/GIT_mjbright/ConferenceDemo.2018-04_codeeurope-microservices/demo.html
 ```
 
 Alternatively I could launch a web server, e.g. using Python3, from the codeeurope-microservices repo directory as such:
 
 ```
-    cd C:/tools/cygwin/home/windo/src/git/GIT_mjbright/codeeurope-microservices/
+    cd C:/tools/cygwin/home/windo/src/git/GIT_mjbright/ConferenceDemo.2018-04_codeeurope-microservices/
     cd live-k8s-visualizer/
 
     python3 -m http.server 8000 --bind 127.0.0.1
